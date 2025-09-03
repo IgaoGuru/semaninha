@@ -1,16 +1,64 @@
 ---
-
+// No server-side JS needed for this simple page
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>semaninha</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      .credit {
+        margin-top: 12px;
+        color: #9ca3af;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <img id="semaninha-img" alt="Imagem do dia da semana" />
+    <p class="credit">infelizmente, por <a href="https://falso.net">Igor</a></p>
+
+    <script>
+      (function () {
+        const options: Intl.DateTimeFormatOptions = { weekday: "long", timeZone: "America/Sao_Paulo" };
+        const dayPt = new Intl.DateTimeFormat("pt-BR", options)
+          .format(new Date())
+          .toLowerCase();
+
+        // Mapeia o nome completo do dia em português para o nome de arquivo desejado
+        const map: Record<string, string> = {
+          "segunda-feira": "segunda",
+          "terça-feira": "terca",
+          "quarta-feira": "quarta",
+          "quinta-feira": "quinta",
+          "sexta-feira": "sexta",
+          "sábado": "sabado",
+          "domingo": "domingo",
+        };
+
+        const key = map[dayPt];
+        const img = document.getElementById("semaninha-img") as HTMLImageElement;
+        if (key && img) {
+          img.src = `/${key}.png`;
+        }
+      })();
+    </script>
+  </body>
 </html>
